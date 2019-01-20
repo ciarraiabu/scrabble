@@ -1,0 +1,55 @@
+import java.util.*;
+import java.lang.*;
+class Main
+{
+	  public static void main(String []args)
+	  {
+	  	Scanner sc=new Scanner(System.in);
+        System.out.println("Enter the letters");
+        String characters=sc.nextLine();
+
+        FileIO r=new FileIO();
+        String[] dictionary=r.load("dictionary.txt");
+
+        List<String> array=new ArrayList<>();
+
+        Collections.sort(array,new Comparator<String>()
+        {
+        	@Override
+        	public int compare(String a, String b)
+        	{
+        		int l1=a.length();
+        		int l2=b.length();
+
+        		if(l1>l2)
+        		{
+        			return -1;
+        		}
+        		if(l1<l2)
+        		{
+        			return 1;
+        		}
+        		return a.compareTo(b);
+        	}
+        });
+        for(String dictionaryWord:dictionary)
+        {
+        	if(canMake(dictionaryWord,characters))
+        	{
+        		array.add(dictionaryWord);
+        	}
+        }
+	  }
+	  public static boolean canMake(String word, String availableLetters)
+	  {
+	  	   for(char c: word.toCharArray())
+	  	   {
+	  	   	   if(availableLetters.indexOf(""+c)==-1)
+	  	   	   {
+	  	   	   	   return false;
+	  	   	   }
+	  	   }
+	  	   availableLetters=availableLetters.replaceFirst(c,"");
+	  	   return true;
+	  }
+}
